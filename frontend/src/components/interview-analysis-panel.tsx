@@ -1,10 +1,10 @@
-"use client"
+
 
 import type React from "react"
 
 import { useState, useEffect } from "react"
 import { BarChart, CheckCircle, Clock, AlertTriangle, Mic, Volume2, Brain, Lightbulb, Lock } from "lucide-react"
-import Link from "next/link"
+import {Link} from "react-router";
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -191,7 +191,7 @@ export function InterviewAnalysisPanel({ isRecording, interviewDuration, current
               Real-time interview analysis is available on Basic plan and above.
             </p>
             <Button asChild>
-              <Link href="/subscription">Upgrade Your Plan</Link>
+              <Link to="/subscription">Upgrade Your Plan</Link>
             </Button>
           </div>
         )
@@ -291,7 +291,7 @@ export function InterviewAnalysisPanel({ isRecording, interviewDuration, current
                     ))}
                     <div className="p-3 rounded-md border border-dashed flex items-center justify-center">
                       <Button variant="link" asChild>
-                        <Link href="/subscription">Upgrade to see more key moments</Link>
+                        <Link to="/subscription">Upgrade to see more key moments</Link>
                       </Button>
                     </div>
                   </div>
@@ -489,7 +489,7 @@ export function InterviewAnalysisPanel({ isRecording, interviewDuration, current
       <CardFooter className="border-t p-4">
         {subscriptionTier === "free" ? (
           <Button className="w-full" asChild>
-            <Link href="/subscription">Upgrade to Add AI Insights to Notes</Link>
+            <Link to="/subscription">Upgrade to Add AI Insights to Notes</Link>
           </Button>
         ) : (
           <Button
