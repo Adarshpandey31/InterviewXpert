@@ -35,7 +35,6 @@ const formSchema = z.object({
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-
   const location = useLocation();
   const queryParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
   const defaultRole = queryParams.get("role") || "student";
@@ -51,7 +50,7 @@ export default function RegisterPage() {
       email: "",
       password: "",
       role: defaultRole as "student" | "interviewer",
-      plan: defaultPlan as "free" | "basic" | "professional" | "enterprise",
+      plan: defaultRole === "student" ? defaultPlan as "free" | "basic" | "professional" | "enterprise": undefined,
     },
   })
 
@@ -161,13 +160,18 @@ export default function RegisterPage() {
     },
   ]
 
-  const handleNextStep = () => {
+   // Handle next step logic: Skip plan selection for interviewers
+   const handleNextStep = () => {
     if (currentStep === "role") {
-      setCurrentStep("plan")
+      if (form.watch("role") === "student") {
+        setCurrentStep("plan"); // Show plan step for students
+      } else {
+        setCurrentStep("details"); // Skip plan step for interviewers
+      }
     } else if (currentStep === "plan") {
-      setCurrentStep("details")
+      setCurrentStep("details");
     }
-  }
+  };
 
   const handlePreviousStep = () => {
     if (currentStep === "details") {
@@ -180,7 +184,7 @@ export default function RegisterPage() {
   return (
     <>
       <Navbar />
-      <div className="container flex px-4 py-4 flex-col items-center">
+      <div className="container mx-auto flex px-4 py-4 flex-col items-center">
         <Card className="w-full max-w-3xl">
           <CardHeader>
             <CardTitle className="text-2xl">Create an account</CardTitle>

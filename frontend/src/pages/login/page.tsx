@@ -59,7 +59,7 @@ export default function LoginPage() {
   return (
     <>
       <Navbar />
-      <div className="container px-4 py-4 flex flex-col items-center">
+      <div className="container mx-auto px-4 py-4 flex flex-col items-center">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
