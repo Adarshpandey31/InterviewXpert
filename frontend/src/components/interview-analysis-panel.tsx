@@ -42,7 +42,7 @@ type AnalysisPanelProps = {
   onAddNote: (note: string) => void
 }
 
-export function InterviewAnalysisPanel({ isRecording, interviewDuration, currentTime, onAddNote }: AnalysisPanelProps) {
+export function InterviewAnalysisPanel({ isRecording, currentTime, onAddNote }: AnalysisPanelProps) {
   const [metrics, setMetrics] = useState<AnalysisMetric[]>([
     { name: "Confidence", value: 75, previousValue: 70, icon: <Volume2 className="h-4 w-4" /> },
     { name: "Technical Knowledge", value: 82, previousValue: 80, icon: <Brain className="h-4 w-4" /> },

@@ -1,7 +1,7 @@
 
 
 import { useState } from "react"
-import Link from "next/link"
+import {Link} from "react-router";
 import { ArrowLeft, CheckCircle, Clock, HelpCircle, XCircle } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -72,7 +72,7 @@ const assessmentData = {
 export default function AssessmentPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<Record<string, any>>({})
-  const [timeRemaining, setTimeRemaining] = useState(assessmentData.timeLimit * 60) // in seconds
+  const [timeRemaining] = useState(assessmentData.timeLimit * 60) // in seconds
   const [assessmentState, setAssessmentState] = useState<"not-started" | "in-progress" | "completed">("not-started")
   const [activeTab, setActiveTab] = useState("overview")
 
@@ -192,7 +192,7 @@ export default function AssessmentPage() {
         <div>
           <div className="flex items-center gap-2 mb-6">
             <Button variant="ghost" size="icon" asChild>
-              <Link href="/dashboard/student">
+              <Link to="/dashboard/student">
                 <ArrowLeft className="h-5 w-5" />
               </Link>
             </Button>
@@ -337,7 +337,7 @@ export default function AssessmentPage() {
         <div>
           <div className="flex items-center gap-2 mb-6">
             <Button variant="ghost" size="icon" asChild>
-              <Link href="/dashboard/student">
+              <Link to="/dashboard/student">
                 <ArrowLeft className="h-5 w-5" />
               </Link>
             </Button>
@@ -429,14 +429,14 @@ export default function AssessmentPage() {
                         <p className="text-sm text-muted-foreground">{recommendation.description}</p>
                       </div>
                       <Button size="sm" asChild>
-                        <Link href={recommendation.link}>Start</Link>
+                        <Link to={recommendation.link}>Start</Link>
                       </Button>
                     </div>
                   ))}
                 </CardContent>
                 <CardFooter>
                   <Button className="w-full" asChild>
-                    <Link href="/dashboard/student">Return to Dashboard</Link>
+                    <Link to="/dashboard/student">Return to Dashboard</Link>
                   </Button>
                 </CardFooter>
               </Card>

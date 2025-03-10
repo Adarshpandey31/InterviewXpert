@@ -1,7 +1,5 @@
-
-
 import { useState } from "react"
-import Link from "next/link"
+import {Link} from "react-router"
 import { ArrowLeft, BookOpen, CheckCircle, Code, Search, SlidersHorizontal, Tag } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -194,7 +192,7 @@ export default function PracticePage() {
     <div className="container py-6 max-w-5xl">
       <div className="flex items-center gap-2 mb-6">
         <Button variant="ghost" size="icon" asChild>
-          <Link href="/dashboard/student">
+          <Link to="/dashboard/student">
             <ArrowLeft className="h-5 w-5" />
           </Link>
         </Button>

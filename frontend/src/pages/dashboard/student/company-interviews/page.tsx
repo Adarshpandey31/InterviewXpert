@@ -3,7 +3,7 @@
 import { Label } from "@/components/ui/label"
 
 import { useState } from "react"
-import Link from "next/link"
+import {Link} from "react-router";
 import { ArrowLeft, Search, Filter, Building, Users, Briefcase, Calendar, Star, ChevronRight } from "lucide-react"
 
 import { Button } from "@/components/ui/button"

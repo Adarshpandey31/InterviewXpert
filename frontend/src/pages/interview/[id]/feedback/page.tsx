@@ -1,7 +1,6 @@
 
-
 import { useState, useEffect } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useParams, useNavigate} from "react-router"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -19,7 +18,7 @@ import { generateText } from "ai"
 import { openai } from "@ai-sdk/openai"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { AlertTriangle, BookOpen, MessageSquare } from "lucide-react"
-import Link from "next/link"
+import {Link} from "react-router";
 
 // Add a function to determine the subscription tier
 const getUserSubscriptionTier = () => {
@@ -120,7 +119,7 @@ const TrainerConnection = ({ lowRatedAreas, onRequestTrainer }) => {
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">{trainerAvailability.message}</p>
               <Button asChild>
-                <Link href="/subscription">Upgrade Plan</Link>
+                <Link to="/subscription">Upgrade Plan</Link>
               </Button>
             </div>
           )}
@@ -171,7 +170,7 @@ const feedbackFormSchema = z.object({
 // Add the trainer connection dialog to the main component
 export default function InterviewFeedbackPage() {
   const params = useParams()
-  const router = useRouter()
+  const navigate = useNavigate()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [sentimentAnalysis, setSentimentAnalysis] = useState<any>(null)
@@ -211,7 +210,7 @@ export default function InterviewFeedbackPage() {
     })
 
     // Redirect to the interview completion page
-    router.push(`/interview/${params.id}/complete`)
+    navigate(`/interview/${params.id}/complete`)
   }
 
   async function analyzeSentiment() {

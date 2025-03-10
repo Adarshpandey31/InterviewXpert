@@ -1,7 +1,5 @@
-
-
 import { useState } from "react"
-import Link from "next/link"
+import {Link} from "react-router";
 import { CalendarIcon, Clock, LogOut, Plus, User } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -114,12 +112,12 @@ export default function InterviewerDashboard() {
             <span className="text-primary">MockPrep</span>
           </div>
           <nav className="flex items-center gap-4">
-            <Link href="/dashboard/interviewer/profile">
+            <Link to="/dashboard/interviewer/profile">
               <Button variant="ghost" size="icon">
                 <User className="h-5 w-5" />
               </Button>
             </Link>
-            <Link href="/logout">
+            <Link to="/logout">
               <Button variant="ghost" size="icon">
                 <LogOut className="h-5 w-5" />
               </Button>

@@ -1,7 +1,5 @@
-
-
 import { useEffect, useState } from "react"
-import { useParams } from "next/navigation"
+// import { useParams } from "react-router"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
@@ -39,7 +37,7 @@ const interviewData = {
 }
 
 export default function InterviewPage() {
-  const params = useParams()
+  // const {id} = useParams()
   const [interview, setInterview] = useState(interviewData)
   const [notes, setNotes] = useState("")
   const [timeRemaining, setTimeRemaining] = useState(45 * 60) // 45 minutes in seconds

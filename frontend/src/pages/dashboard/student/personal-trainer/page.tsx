@@ -1,8 +1,8 @@
 
 
 import { useState, useRef, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
+import { useNavigate } from "react-router"
+import {Link} from "react-router"
 import { ArrowLeft, Send, User, Bot, AlertTriangle } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -75,7 +75,7 @@ const mockAIResponse = async (input: string, tier: string): Promise<string> => {
 }
 
 export default function PersonalTrainerPage() {
-  const router = useRouter()
+  const navigate = useNavigate()
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -148,7 +148,7 @@ export default function PersonalTrainerPage() {
             <AlertDescription>
               You're on the Free plan with basic AI trainer capabilities.
               <Button variant="link" className="p-0 h-auto" asChild>
-                <Link href="/subscription">Upgrade your plan</Link>
+                <Link to="/subscription">Upgrade your plan</Link>
               </Button>{" "}
               for human trainer assistance and personalized feedback.
             </AlertDescription>
@@ -159,7 +159,7 @@ export default function PersonalTrainerPage() {
           <div className="mb-4 flex justify-between items-center">
             <Badge variant="outline">Basic Plan</Badge>
             <Button variant="outline" size="sm" asChild>
-              <Link href="/subscription">Upgrade for Human Trainer</Link>
+              <Link to="/subscription">Upgrade for Human Trainer</Link>
             </Button>
           </div>
         )
@@ -168,7 +168,7 @@ export default function PersonalTrainerPage() {
           <div className="mb-4 flex justify-between items-center">
             <Badge variant="secondary">Professional Plan</Badge>
             <Button variant="outline" size="sm" asChild>
-              <Link href="/dashboard/student/personal-trainer/dashboard">Trainer Dashboard</Link>
+              <Link to="/dashboard/student/personal-trainer/dashboard">Trainer Dashboard</Link>
             </Button>
           </div>
         )
@@ -181,7 +181,7 @@ export default function PersonalTrainerPage() {
                 Request Human Trainer
               </Button>
               <Button variant="outline" size="sm" asChild>
-                <Link href="/dashboard/student/personal-trainer/dashboard">Trainer Dashboard</Link>
+                <Link to="/dashboard/student/personal-trainer/dashboard">Trainer Dashboard</Link>
               </Button>
             </div>
           </div>
@@ -194,7 +194,7 @@ export default function PersonalTrainerPage() {
   return (
     <div className="container py-6 max-w-4xl">
       <div className="flex items-center gap-2 mb-6">
-        <Button variant="ghost" size="icon" onClick={() => router.push("/dashboard/student")}>
+        <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard/student")}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <h1 className="text-2xl font-bold">Personal Trainer Chat</h1>
@@ -333,7 +333,7 @@ export default function PersonalTrainerPage() {
             {subscriptionTier === "free" && (
               <CardFooter>
                 <Button className="w-full" asChild>
-                  <Link href="/subscription">Upgrade for Personalized Topics</Link>
+                  <Link to="/subscription">Upgrade for Personalized Topics</Link>
                 </Button>
               </CardFooter>
             )}

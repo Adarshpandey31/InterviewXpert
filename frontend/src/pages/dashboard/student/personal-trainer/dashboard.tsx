@@ -1,7 +1,7 @@
 
 
 import { useState } from "react"
-import Link from "next/link"
+import {Link} from "react-router"
 import { ArrowLeft, Calendar, MessageSquare, Video, FileText, ChevronRight, Clock, Award, BookOpen } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -117,7 +117,7 @@ export default function PersonalTrainerDashboard() {
     <div className="container py-6 max-w-6xl">
       <div className="flex items-center gap-2 mb-8">
         <Button variant="ghost" size="icon" asChild>
-          <Link href="/dashboard/student">
+          <Link to="/dashboard/student">
             <ArrowLeft className="h-5 w-5" />
           </Link>
         </Button>
@@ -157,7 +157,7 @@ export default function PersonalTrainerDashboard() {
             </CardContent>
             <CardFooter className="flex justify-between">
               <Button variant="outline" size="sm" asChild>
-                <Link href="/dashboard/student/personal-trainer">
+                <Link to="/dashboard/student/personal-trainer">
                   <MessageSquare className="h-4 w-4 mr-2" />
                   Message
                 </Link>
@@ -326,7 +326,7 @@ export default function PersonalTrainerDashboard() {
                 </CardContent>
                 <CardFooter>
                   <Button variant="outline" className="w-full" asChild>
-                    <Link href="/dashboard/student/feedback">View All Feedback</Link>
+                    <Link to="/dashboard/student/feedback">View All Feedback</Link>
                   </Button>
                 </CardFooter>
               </Card>
@@ -455,7 +455,7 @@ export default function PersonalTrainerDashboard() {
                           </div>
                         </div>
                         <Button size="sm" variant="outline" asChild>
-                          <Link href={resource.link}>
+                          <Link to={resource.link}>
                             View
                             <ChevronRight className="ml-1 h-4 w-4" />
                           </Link>
@@ -518,7 +518,7 @@ export default function PersonalTrainerDashboard() {
                 </CardContent>
                 <CardFooter>
                   <Button variant="outline" className="w-full" asChild>
-                    <Link href="/dashboard/student/practice">View All Practice Questions</Link>
+                    <Link to="/dashboard/student/practice">View All Practice Questions</Link>
                   </Button>
                 </CardFooter>
               </Card>

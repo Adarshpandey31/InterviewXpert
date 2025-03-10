@@ -1,8 +1,8 @@
 
 
 import { useState } from "react"
-import { useParams, useRouter } from "next/navigation"
-import Link from "next/link"
+// import { useParams, useNavigate } from "react-router"
+import {Link} from "react-router"
 import { ArrowLeft, CheckCircle, ChevronRight, Clock, Code, FileText, Play, Video } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -175,8 +175,8 @@ const performanceData = {
 }
 
 export default function TrainingModulePage() {
-  const params = useParams()
-  const router = useRouter()
+  // const params = useParams()
+  // const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("content")
 
   // Calculate completion percentage
@@ -205,7 +205,7 @@ export default function TrainingModulePage() {
     <div className="container py-6 max-w-5xl">
       <div className="flex items-center gap-2 mb-6">
         <Button variant="ghost" size="icon" asChild>
-          <Link href="/dashboard/student">
+          <Link to="/dashboard/student">
             <ArrowLeft className="h-5 w-5" />
           </Link>
         </Button>

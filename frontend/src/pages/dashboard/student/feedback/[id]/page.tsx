@@ -1,7 +1,7 @@
 
 
-import { useParams } from "next/navigation"
-import Link from "next/link"
+// import { useParams } from "react-router"
+import {Link} from "react-router"
 import { Download, ExternalLink } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -81,7 +81,7 @@ const feedbackData = {
 }
 
 export default function FeedbackReportPage() {
-  const params = useParams()
+  // const params = useParams()
 
   // Calculate overall score (average of all scores)
   const overallScore =

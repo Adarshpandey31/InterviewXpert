@@ -1,9 +1,6 @@
-
-
 import { useState } from "react"
-import Link from "next/link"
+import {Link} from "react-router"
 import { CalendarIcon, Clock, LogOut, Search, User, MessageSquare, CreditCard, Building, BarChart } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -195,12 +192,12 @@ export default function StudentDashboard() {
             <span className="text-primary">MockPrep</span>
           </div>
           <nav className="flex items-center gap-4">
-            <Link href="/dashboard/student/profile">
+            <Link to="/dashboard/student/profile">
               <Button variant="ghost" size="icon">
                 <User className="h-5 w-5" />
               </Button>
             </Link>
-            <Link href="/logout">
+            <Link to="/logout">
               <Button variant="ghost" size="icon">
                 <LogOut className="h-5 w-5" />
               </Button>
@@ -250,7 +247,7 @@ export default function StudentDashboard() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" asChild>
-                        <Link href={`/interview/${interview.id}`}>Join Interview</Link>
+                        <Link to={`/interview/${interview.id}`}>Join Interview</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -261,7 +258,7 @@ export default function StudentDashboard() {
                 <h3 className="text-lg font-medium">No upcoming interviews</h3>
                 <p className="text-muted-foreground mt-1">Schedule your first interview by finding an interviewer</p>
                 <Button className="mt-4" variant="outline" asChild>
-                  <Link href="#find">Find Interviewers</Link>
+                  <Link to="#find">Find Interviewers</Link>
                 </Button>
               </div>
             )}
@@ -474,13 +471,13 @@ export default function StudentDashboard() {
                 </CardContent>
                 <CardFooter className="flex flex-col gap-2">
                   <Button className="w-full" asChild>
-                    <Link href="/dashboard/student/personal-trainer">
+                    <Link to="/dashboard/student/personal-trainer">
                       <MessageSquare className="mr-2 h-4 w-4" />
                       Start Chat Session
                     </Link>
                   </Button>
                   <Button variant="outline" className="w-full" asChild>
-                    <Link href="/dashboard/student/personal-trainer/dashboard">
+                    <Link to="/dashboard/student/personal-trainer/dashboard">
                       <BarChart className="mr-2 h-4 w-4" />
                       Trainer Dashboard
                     </Link>
@@ -500,7 +497,7 @@ export default function StudentDashboard() {
                 </CardContent>
                 <CardFooter>
                   <Button className="w-full" asChild>
-                    <Link href="/subscription">
+                    <Link to="/subscription">
                       <CreditCard className="mr-2 h-4 w-4" />
                       View Plans
                     </Link>
@@ -520,7 +517,7 @@ export default function StudentDashboard() {
                 </CardContent>
                 <CardFooter>
                   <Button className="w-full" asChild>
-                    <Link href="/dashboard/student/company-interviews">
+                    <Link to="/dashboard/student/company-interviews">
                       <Building className="mr-2 h-4 w-4" />
                       Browse Companies
                     </Link>
@@ -661,7 +658,7 @@ export default function StudentDashboard() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href={`/dashboard/student/feedback/${interview.feedbackId}`}>View Feedback</Link>
+                        <Link to={`/dashboard/student/feedback/${interview.feedbackId}`}>View Feedback</Link>
                       </Button>
                     </CardFooter>
                   </Card>
