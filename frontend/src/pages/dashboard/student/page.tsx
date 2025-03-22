@@ -1,5 +1,5 @@
 import { useState } from "react"
-import {Link} from "react-router"
+import { Link } from "react-router"
 import { CalendarIcon, Clock, LogOut, Search, User, MessageSquare, CreditCard, Building, BarChart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,172 +8,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
+import { upcomingInterviews, pastInterviews, availableInterviewers, skillAssessment, trainingModules, practiceQuestions } from "@/data/studentMockData";
+import Footer from "@/components/footer"
 
-// Mock data for upcoming interviews
-const upcomingInterviews = [
-  {
-    id: 1,
-    company: "Google",
-    role: "Frontend Developer",
-    interviewer: "Sarah Johnson",
-    date: "2025-03-10",
-    time: "10:00 AM",
-    status: "confirmed",
-  },
-  {
-    id: 2,
-    company: "Microsoft",
-    role: "Software Engineer",
-    interviewer: "Michael Chen",
-    date: "2025-03-15",
-    time: "2:00 PM",
-    status: "pending",
-  },
-]
-
-// Mock data for past interviews with feedback
-const pastInterviews = [
-  {
-    id: 101,
-    company: "Amazon",
-    role: "Frontend Developer",
-    interviewer: "David Wilson",
-    date: "2025-02-20",
-    time: "11:00 AM",
-    status: "completed",
-    feedbackId: "123",
-    overallScore: 4,
-  },
-  {
-    id: 102,
-    company: "Netflix",
-    role: "UI Engineer",
-    interviewer: "James Lee",
-    date: "2025-02-15",
-    time: "3:00 PM",
-    status: "completed",
-    feedbackId: "124",
-    overallScore: 3.5,
-  },
-]
-
-// Mock data for available interviewers
-const availableInterviewers = [
-  {
-    id: 1,
-    name: "David Wilson",
-    company: "Amazon",
-    role: "Senior Software Engineer",
-    experience: "5 years",
-    specialization: "System Design, Algorithms",
-    availability: ["Mon 2-4 PM", "Wed 10-12 AM", "Fri 3-5 PM"],
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 2,
-    name: "Emily Rodriguez",
-    company: "Facebook",
-    role: "Frontend Engineer",
-    experience: "4 years",
-    specialization: "React, JavaScript, CSS",
-    availability: ["Tue 1-3 PM", "Thu 11-1 PM", "Sat 10-12 AM"],
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 3,
-    name: "James Lee",
-    company: "Netflix",
-    role: "Backend Engineer",
-    experience: "6 years",
-    specialization: "Node.js, Databases, API Design",
-    availability: ["Mon 5-7 PM", "Wed 2-4 PM", "Fri 10-12 AM"],
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-]
-
-// Mock data for training modules
-const trainingModules = [
-  {
-    id: 1,
-    title: "Technical Interview Fundamentals",
-    description: "Master the basics of technical interviews with focus on algorithms and data structures",
-    progress: 65,
-    totalLessons: 12,
-    completedLessons: 8,
-    image: "/placeholder.svg?height=100&width=200",
-  },
-  {
-    id: 2,
-    title: "System Design Interview Prep",
-    description: "Learn how to approach and solve system design questions for senior roles",
-    progress: 30,
-    totalLessons: 10,
-    completedLessons: 3,
-    image: "/placeholder.svg?height=100&width=200",
-  },
-  {
-    id: 3,
-    title: "Behavioral Interview Mastery",
-    description: "Prepare compelling stories and answers for common behavioral questions",
-    progress: 90,
-    totalLessons: 8,
-    completedLessons: 7,
-    image: "/placeholder.svg?height=100&width=200",
-  },
-  {
-    id: 4,
-    title: "Amazon Leadership Principles",
-    description: "Specialized training for Amazon interviews focusing on their leadership principles",
-    progress: 10,
-    totalLessons: 14,
-    completedLessons: 1,
-    image: "/placeholder.svg?height=100&width=200",
-  },
-]
-
-// Mock data for skill assessment
-const skillAssessment = {
-  overall: 72,
-  technical: 68,
-  communication: 85,
-  problemSolving: 75,
-  systemDesign: 60,
-  codingSpeed: 65,
-  algorithmKnowledge: 70,
-  recentProgress: [65, 67, 68, 70, 72, 72, 75],
-  weakAreas: ["Dynamic Programming", "System Design Scalability", "Concurrency"],
-  strongAreas: ["Array Manipulation", "Communication", "Object-Oriented Design"],
-}
-
-// Mock data for practice questions
-const practiceQuestions = [
-  {
-    id: 1,
-    question: "Implement a function to check if a binary tree is balanced",
-    difficulty: "Medium",
-    category: "Trees",
-    lastAttempted: "2025-03-01",
-    score: 85,
-  },
-  {
-    id: 2,
-    question: "Design a URL shortening service like bit.ly",
-    difficulty: "Hard",
-    category: "System Design",
-    lastAttempted: "2025-02-28",
-    score: 60,
-  },
-  {
-    id: 3,
-    question: "Find the kth largest element in an unsorted array",
-    difficulty: "Medium",
-    category: "Arrays",
-    lastAttempted: "2025-03-05",
-    score: 90,
-  },
-]
-
-export default function StudentDashboard() {
+export function StudentDashboard() {
+  const mockStudentName = 'Adarsh Pandey';
   const [searchQuery, setSearchQuery] = useState("")
 
   const filteredInterviewers = availableInterviewers.filter(
@@ -186,7 +25,7 @@ export default function StudentDashboard() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
+      <header className="px-4 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 font-bold">
             <span className="text-primary">MockPrep</span>
@@ -197,7 +36,7 @@ export default function StudentDashboard() {
                 <User className="h-5 w-5" />
               </Button>
             </Link>
-            <Link to="/logout">
+            <Link to="/login">
               <Button variant="ghost" size="icon">
                 <LogOut className="h-5 w-5" />
               </Button>
@@ -205,16 +44,25 @@ export default function StudentDashboard() {
           </nav>
         </div>
       </header>
-      <main className="flex-1 container py-6">
-        <h1 className="text-3xl font-bold mb-6">Student Dashboard</h1>
+      <main className="flex-1 px-4 py-6">
+        <h1 className="text-3xl font-bold mb-6">{mockStudentName}</h1>
 
         <Tabs defaultValue="upcoming" className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-4">
-            <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-            <TabsTrigger value="find">Find Interviewers</TabsTrigger>
-            <TabsTrigger value="training">Training</TabsTrigger>
-            <TabsTrigger value="past">Past Interviews</TabsTrigger>
+          <TabsList className="grid w-full max-w-md grid-cols-4 mx-auto gap-x-2">
+            <TabsTrigger value="upcoming" className="px-4 text-center">
+              Upcoming
+            </TabsTrigger>
+            <TabsTrigger value="find" className="px-4 text-center">
+              Interviewers
+            </TabsTrigger>
+            <TabsTrigger value="training" className="px-4 text-center">
+              Training
+            </TabsTrigger>
+            <TabsTrigger value="past" className="px-4 text-center">
+              Past Interviews
+            </TabsTrigger>
           </TabsList>
+
 
           <TabsContent value="upcoming" className="mt-6">
             <h2 className="text-xl font-semibold mb-4">Your Upcoming Interviews</h2>
@@ -321,7 +169,7 @@ export default function StudentDashboard() {
             <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-6">
               <div>
                 <h2 className="text-xl font-semibold">Personal Training</h2>
-                <p className="text-muted-foreground">Trackk your progress and improve your interview skills</p>
+                <p className="text-muted-foreground">Track your progress and improve your interview skills</p>
               </div>
               <Button>Take Skill Assessment</Button>
             </div>
@@ -471,13 +319,13 @@ export default function StudentDashboard() {
                 </CardContent>
                 <CardFooter className="flex flex-col gap-2">
                   <Button className="w-full" asChild>
-                    <Link to="/dashboard/student/personal-trainer">
+                    <Link to="/student/personal-trainer">
                       <MessageSquare className="mr-2 h-4 w-4" />
                       Start Chat Session
                     </Link>
                   </Button>
                   <Button variant="outline" className="w-full" asChild>
-                    <Link to="/dashboard/student/personal-trainer/dashboard">
+                    <Link to="/student/personal-trainer/dashboard">
                       <BarChart className="mr-2 h-4 w-4" />
                       Trainer Dashboard
                     </Link>
@@ -517,7 +365,7 @@ export default function StudentDashboard() {
                 </CardContent>
                 <CardFooter>
                   <Button className="w-full" asChild>
-                    <Link to="/dashboard/student/company-interviews">
+                    <Link to="/student/company-interviews">
                       <Building className="mr-2 h-4 w-4" />
                       Browse Companies
                     </Link>
@@ -658,7 +506,7 @@ export default function StudentDashboard() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link to={`/dashboard/student/feedback/${interview.feedbackId}`}>View Feedback</Link>
+                        <Link to={`/student/feedback/${interview.id}`}>View Feedback</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -673,11 +521,7 @@ export default function StudentDashboard() {
           </TabsContent>
         </Tabs>
       </main>
-      <footer className="w-full border-t py-4">
-        <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-sm text-muted-foreground">© 2025 MockPrep. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

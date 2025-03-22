@@ -22,7 +22,7 @@ const formSchema = z.object({
   }),
 })
 
-export default function LoginPage() {
+export function LoginPage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -53,7 +53,7 @@ export default function LoginPage() {
       title: "Login successful!",
       description: "Welcome back to MockPrep",
     })
-    navigate(`/dashboard/${userRole}`);
+    navigate(`/${userRole}/dashboard`);
   }
 
   return (

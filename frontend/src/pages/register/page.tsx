@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { toast } from "@/components/ui/use-toast"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { toast } from "@/components/ui/use-toast";
 import Navbar from "@/components/navbar";
 
 // Update the form schema to include the free plan
@@ -33,7 +33,7 @@ const formSchema = z.object({
   }),
 })
 
-export default function RegisterPage() {
+export function RegisterPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
@@ -50,7 +50,7 @@ export default function RegisterPage() {
       email: "",
       password: "",
       role: defaultRole as "student" | "interviewer",
-      plan: defaultRole === "student" ? defaultPlan as "free" | "basic" | "professional" | "enterprise": undefined,
+      plan: defaultRole === "student" ? defaultPlan as "free" | "basic" | "professional" | "enterprise" : undefined,
     },
   })
 
@@ -80,9 +80,7 @@ export default function RegisterPage() {
       title: "Registration successful!",
       description: `You have successfully registered as a ${values.role} with the ${values.plan} plan.`,
     })
-
-    // Redirect to the appropriate dashboard
-    navigate(values.role === "student" ? "/dashboard/student" : "/dashboard/interviewer");
+    navigate("/login");
   }
 
   // Add the free plan to the plans array
@@ -160,8 +158,8 @@ export default function RegisterPage() {
     },
   ]
 
-   // Handle next step logic: Skip plan selection for interviewers
-   const handleNextStep = () => {
+  // Handle next step logic: Skip plan selection for interviewers
+  const handleNextStep = () => {
     if (currentStep === "role") {
       if (form.watch("role") === "student") {
         setCurrentStep("plan"); // Show plan step for students
@@ -180,7 +178,6 @@ export default function RegisterPage() {
       setCurrentStep("role")
     }
   }
-
   return (
     <>
       <Navbar />

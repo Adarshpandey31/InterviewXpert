@@ -100,7 +100,7 @@ const TrainerConnection = ({ lowRatedAreas, onRequestTrainer }) => {
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">{trainerAvailability.message}</p>
               <div className="flex flex-wrap gap-2">
-                {trainerAvailability.options.map((option, index) => (
+                {trainerAvailability.options?.map((option, index) => (
                   <Button
                     key={index}
                     variant={index === 0 ? "default" : "outline"}

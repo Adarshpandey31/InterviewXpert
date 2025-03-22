@@ -1,5 +1,5 @@
 import { useState } from "react"
-import {Link} from "react-router";
+import { Link } from "react-router";
 import { CalendarIcon, Clock, LogOut, Plus, User } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -21,51 +21,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { toast } from "@/components/ui/use-toast"
-
-// Mock data for scheduled interviews
-const scheduledInterviews = [
-  {
-    id: 1,
-    student: "Alex Johnson",
-    role: "Frontend Developer",
-    date: "2025-03-10",
-    time: "10:00 AM",
-    status: "confirmed",
-  },
-  {
-    id: 2,
-    student: "Jamie Smith",
-    role: "Software Engineer",
-    date: "2025-03-15",
-    time: "2:00 PM",
-    status: "pending",
-  },
-]
-
-// Mock data for availability slots
-const availabilitySlots = [
-  {
-    id: 1,
-    day: "Monday",
-    startTime: "10:00 AM",
-    endTime: "12:00 PM",
-    isBooked: false,
-  },
-  {
-    id: 2,
-    day: "Wednesday",
-    startTime: "2:00 PM",
-    endTime: "4:00 PM",
-    isBooked: true,
-  },
-  {
-    id: 3,
-    day: "Friday",
-    startTime: "1:00 PM",
-    endTime: "3:00 PM",
-    isBooked: false,
-  },
-]
+import { scheduledInterviews, availabilitySlots } from "@/data/interviewerMockData";
+import Footer from "@/components/footer";
 
 const availabilityFormSchema = z.object({
   day: z.string({
@@ -79,8 +36,9 @@ const availabilityFormSchema = z.object({
   }),
 })
 
-export default function InterviewerDashboard() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+export function InterviewerDashboard() {
+  const mockInterviewerName = 'Aditya Kumar';
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const form = useForm<z.infer<typeof availabilityFormSchema>>({
     resolver: zodResolver(availabilityFormSchema),
@@ -92,10 +50,8 @@ export default function InterviewerDashboard() {
   })
 
   function onSubmit(values: z.infer<typeof availabilityFormSchema>) {
-    console.log(values)
-
+    console.log(values);
     // In a real app, you would call your API to add the availability slot
-
     toast({
       title: "Availability added",
       description: `Added availability for ${values.day} from ${values.startTime} to ${values.endTime}`,
@@ -106,7 +62,7 @@ export default function InterviewerDashboard() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
+      <header className="px-4 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 font-bold">
             <span className="text-primary">MockPrep</span>
@@ -117,7 +73,7 @@ export default function InterviewerDashboard() {
                 <User className="h-5 w-5" />
               </Button>
             </Link>
-            <Link to="/logout">
+            <Link to="/login">
               <Button variant="ghost" size="icon">
                 <LogOut className="h-5 w-5" />
               </Button>
@@ -125,11 +81,11 @@ export default function InterviewerDashboard() {
           </nav>
         </div>
       </header>
-      <main className="flex-1 container py-6">
-        <h1 className="text-3xl font-bold mb-6">Interviewer Dashboard</h1>
+      <main className="flex-1 px-4 py-6">
+        <h1 className="text-3xl font-bold mb-6">{mockInterviewerName}</h1>
 
         <Tabs defaultValue="scheduled" className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-3">
+          <TabsList className="grid w-full max-w-md grid-cols-3 mx-auto">
             <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
             <TabsTrigger value="availability">Availability</TabsTrigger>
             <TabsTrigger value="past">Past Interviews</TabsTrigger>
@@ -322,11 +278,7 @@ export default function InterviewerDashboard() {
           </TabsContent>
         </Tabs>
       </main>
-      <footer className="w-full border-t py-4">
-        <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-sm text-muted-foreground">© 2025 MockPrep. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   )
 }

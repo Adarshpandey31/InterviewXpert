@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react"
 import { useNavigate } from "react-router"
-import {Link} from "react-router"
+import { Link } from "react-router"
 import { ArrowLeft, Send, User, Bot, AlertTriangle } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -12,9 +12,10 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import Footer from "@/components/footer"
 
 // Function to get user subscription tier
-const getUserSubscriptionTier = () => {
+const getUserSubscriptionTier = (): "free" | "basic" | "professional" | "enterprise" => {
   // In a real app, this would come from your auth/user context
   // For demo purposes, we'll return a hardcoded value
   return "basic" // Options: "free", "basic", "professional", "enterprise"
@@ -42,7 +43,8 @@ type Message = {
 }
 
 // Mock AI response function with tier-specific responses
-const mockAIResponse = async (input: string, tier: string): Promise<string> => {
+const mockAIResponse = async (input: string, tier: "free" | "basic" | "professional" | "enterprise"): Promise<string> => {
+  console.log(input);
   // Simulate API delay
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
@@ -70,11 +72,11 @@ const mockAIResponse = async (input: string, tier: string): Promise<string> => {
     ],
   }
 
-  const responses = tierResponses[tier] || tierResponses.basic
+  const responses = tierResponses[tier as keyof typeof tierResponses] || tierResponses.basic;
   return responses[Math.floor(Math.random() * responses.length)]
 }
 
-export default function PersonalTrainerPage() {
+export function PersonalTrainerPage() {
   const navigate = useNavigate()
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
@@ -112,7 +114,7 @@ export default function PersonalTrainerPage() {
     }
 
     setMessages([{ role: "assistant", content: initialMessage }])
-  }, [])
+  }, [subscriptionTier])
 
   const sendMessage = async () => {
     if (input.trim() === "") return
@@ -192,154 +194,157 @@ export default function PersonalTrainerPage() {
   }
 
   return (
-    <div className="container py-6 max-w-4xl">
-      <div className="flex items-center gap-2 mb-6">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard/student")}>
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <h1 className="text-2xl font-bold">Personal Trainer Chat</h1>
-      </div>
+    <div className="flex min-h-screen flex-col">
+      <main className="flex-1 py-6 px-4">
+        <div className="flex items-center gap-2 mb-6">
+          <Button variant="ghost" size="icon" onClick={() => navigate("/student/dashboard")}>
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <h1 className="text-2xl font-bold">Personal Trainer Chat</h1>
+        </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        <div className="md:col-span-2">
-          <Card className="h-[600px] flex flex-col">
-            <CardHeader>
-              <CardTitle>Chat with Your Personal Trainer</CardTitle>
-              <CardDescription>Get personalized guidance for your interview preparation</CardDescription>
-              {renderTierSpecificUI()}
-            </CardHeader>
-            <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
-              <div className="space-y-4">
-                {messages.map((message, index) => (
-                  <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
-                    <div
-                      className={`flex items-start gap-2 max-w-[80%] ${message.role === "user" ? "flex-row-reverse" : ""}`}
-                    >
-                      <Avatar>
-                        {message.role === "user" ? <User className="h-6 w-6" /> : <Bot className="h-6 w-6" />}
-                      </Avatar>
+        <div className="grid gap-6 md:grid-cols-3">
+          <div className="md:col-span-2">
+            <Card className="h-[600px] flex flex-col">
+              <CardHeader>
+                <CardTitle>Chat with Your Personal Trainer</CardTitle>
+                <CardDescription>Get personalized guidance for your interview preparation</CardDescription>
+                {renderTierSpecificUI()}
+              </CardHeader>
+              <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
+                <div className="space-y-4">
+                  {messages.map((message, index) => (
+                    <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
                       <div
-                        className={`rounded-lg p-3 ${message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"}`}
+                        className={`flex items-start gap-2 max-w-[80%] ${message.role === "user" ? "flex-row-reverse" : ""}`}
                       >
-                        <p className="text-sm">{message.content}</p>
+                        <Avatar>
+                          {message.role === "user" ? <User className="h-6 w-6" /> : <Bot className="h-6 w-6" />}
+                        </Avatar>
+                        <div
+                          className={`rounded-lg p-3 ${message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"}`}
+                        >
+                          <p className="text-sm">{message.content}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-                {isLoading && (
-                  <div className="flex justify-start">
-                    <div className="flex items-center gap-2 max-w-[80%]">
-                      <Avatar>
-                        <Bot className="h-6 w-6" />
-                      </Avatar>
-                      <div className="rounded-lg p-3 bg-muted">
-                        <p className="text-sm">Thinking...</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </ScrollArea>
-            <CardFooter className="border-t p-4">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  sendMessage()
-                }}
-                className="flex w-full items-center space-x-2"
-              >
-                <Input
-                  type="text"
-                  placeholder="Type your message..."
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                />
-                <Button type="submit" size="icon" disabled={isLoading}>
-                  <Send className="h-4 w-4" />
-                </Button>
-              </form>
-            </CardFooter>
-          </Card>
-        </div>
-
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Your Profile</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <p className="text-sm font-medium">Weak Areas</p>
-                <div className="flex flex-wrap gap-2 mt-1">
-                  {userData.weakAreas.map((area, index) => (
-                    <Badge key={index} variant="secondary">
-                      {area}
-                    </Badge>
                   ))}
+                  {isLoading && (
+                    <div className="flex justify-start">
+                      <div className="flex items-center gap-2 max-w-[80%]">
+                        <Avatar>
+                          <Bot className="h-6 w-6" />
+                        </Avatar>
+                        <div className="rounded-lg p-3 bg-muted">
+                          <p className="text-sm">Thinking...</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-              <div>
-                <p className="text-sm font-medium">Recent Progress</p>
-                <div className="space-y-2 mt-1">
-                  <div className="flex justify-between text-sm">
-                    <span>Technical Skills</span>
-                    <span>{userData.recentProgress.technicalSkills}%</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Communication Skills</span>
-                    <span>{userData.recentProgress.communicationSkills}%</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Problem Solving</span>
-                    <span>{userData.recentProgress.problemSolving}%</span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Upcoming Interview</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-sm font-medium">Company</span>
-                <span className="text-sm">{userData.upcomingInterview.company}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm font-medium">Role</span>
-                <span className="text-sm">{userData.upcomingInterview.role}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm font-medium">Date</span>
-                <span className="text-sm">{userData.upcomingInterview.date}</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Suggested Topics</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="list-disc pl-4 space-y-1">
-                <li className="text-sm">System design best practices</li>
-                <li className="text-sm">Concurrency patterns in Java</li>
-                <li className="text-sm">Dynamic programming techniques</li>
-                <li className="text-sm">Google's leadership principles</li>
-              </ul>
-            </CardContent>
-            {subscriptionTier === "free" && (
-              <CardFooter>
-                <Button className="w-full" asChild>
-                  <Link to="/subscription">Upgrade for Personalized Topics</Link>
-                </Button>
+              </ScrollArea>
+              <CardFooter className="border-t p-4">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    sendMessage()
+                  }}
+                  className="flex w-full items-center space-x-2"
+                >
+                  <Input
+                    type="text"
+                    placeholder="Type your message..."
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                  />
+                  <Button type="submit" size="icon" disabled={isLoading}>
+                    <Send className="h-4 w-4" />
+                  </Button>
+                </form>
               </CardFooter>
-            )}
-          </Card>
+            </Card>
+          </div>
+
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Your Profile</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <p className="text-sm font-medium">Weak Areas</p>
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    {userData.weakAreas.map((area, index) => (
+                      <Badge key={index} variant="secondary">
+                        {area}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm font-medium">Recent Progress</p>
+                  <div className="space-y-2 mt-1">
+                    <div className="flex justify-between text-sm">
+                      <span>Technical Skills</span>
+                      <span>{userData.recentProgress.technicalSkills}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Communication Skills</span>
+                      <span>{userData.recentProgress.communicationSkills}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Problem Solving</span>
+                      <span>{userData.recentProgress.problemSolving}%</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Upcoming Interview</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-sm font-medium">Company</span>
+                  <span className="text-sm">{userData.upcomingInterview.company}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm font-medium">Role</span>
+                  <span className="text-sm">{userData.upcomingInterview.role}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm font-medium">Date</span>
+                  <span className="text-sm">{userData.upcomingInterview.date}</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Suggested Topics</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="list-disc pl-4 space-y-1">
+                  <li className="text-sm">System design best practices</li>
+                  <li className="text-sm">Concurrency patterns in Java</li>
+                  <li className="text-sm">Dynamic programming techniques</li>
+                  <li className="text-sm">Google's leadership principles</li>
+                </ul>
+              </CardContent>
+              {subscriptionTier === "free" && (
+                <CardFooter>
+                  <Button className="w-full" asChild>
+                    <Link to="/subscription">Upgrade for Personalized Topics</Link>
+                  </Button>
+                </CardFooter>
+              )}
+            </Card>
+          </div>
         </div>
-      </div>
+      </main>
+      <Footer/>
     </div>
   )
 }

@@ -23,9 +23,9 @@ import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import Testimonials from "@/components/testimonials";
 
-export default function SubscriptionPage() {
+export function SubscriptionPage() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "quarterly">("monthly")
-  const [selectedPlan, setSelectedPlan] = useState<"basic" | "professional" | "enterprise">("professional")
+  const [selectedPlan, setSelectedPlan] = useState<"free" | "basic" | "professional" | "enterprise">("professional")
 
   // Add a Free tier to the plans array
   const plans = {
@@ -37,6 +37,7 @@ export default function SubscriptionPage() {
         price: "₹0",
         duration: "Unlimited",
         interviews: "1 AI mock interview per month",
+        savings: 'Always Free'
       },
       quarterly: {
         price: "₹0",
@@ -64,6 +65,7 @@ export default function SubscriptionPage() {
         price: "₹500",
         duration: "1 Month",
         interviews: "2 mock interviews",
+        savings: 'No savings'
       },
       quarterly: {
         price: "₹1,350",
@@ -92,6 +94,7 @@ export default function SubscriptionPage() {
         price: "₹2,000",
         duration: "1 Month",
         interviews: "5 mock interviews",
+        savings: 'No savings'
       },
       quarterly: {
         price: "₹5,000",
@@ -122,6 +125,7 @@ export default function SubscriptionPage() {
         price: "₹5,000",
         duration: "1 Month",
         interviews: "5 company-specific interviews",
+        savings: 'No savings'
       },
       quarterly: {
         price: "₹12,000",
